@@ -29,18 +29,18 @@ public class Grass extends Plants {
         // споры могут отлететь ни на близлежащие ячейки
         int rand = details.randomizer(kidMinCount, kidMaxCount);
         for (int i = 0; i < rand; i++) {
-            int relocationLength = locationLength;
+            /*int relocationLength = locationLength;
             int relocationWidth = locationWidth;
-            // Рандомно на 1 клетку улетают споры
             for (int j = 0; j < speed; j++) {
                 switch (details.randomMoveToCell()) {
                     case "up" -> relocationLength = relocationLength + 1;
                     case "down" -> relocationLength = relocationLength - 1;
                     case "left" -> relocationWidth = relocationWidth - 1;
-                    default -> relocationWidth = relocationWidth + 1;
+                    case "right" -> relocationWidth = relocationWidth + 1;
                 }
             }
-            bornToMove(relocationLength, relocationWidth);
+            bornToMove(relocationLength, relocationWidth);*/ // Рандомно на 1 клетку улетают споры
+            born(locationLength, locationWidth);
         }
 
     }

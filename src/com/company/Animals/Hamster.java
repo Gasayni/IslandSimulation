@@ -14,14 +14,14 @@ public class Hamster extends Animal {
     // Скорость перемещения. На сколько клеток можно передвинуться за один такт
     private static final int speed = 1;
     // Мах уровень сытости/насыщения
-    private static final double maxSatiety = 0.0075;
+    private static final double maxSatiety = 3.0075;
     private double satiety = maxSatiety / 2;
     // (мах шкала выживаемости) Сколько ходов (тактов) животное может жить после падения шкалы сытости до нуля
     private static final int maxHungryTactBeforeDie = 3;
     // текущая шкала выживаемости после падения шкалы сытости до нуля
     private int hungryTactBeforeDie = 0;
-    private boolean eatFlag = false;
     private final int countThisAnimalTypeToCell = cell.hamstersListToCell.size();
+    private boolean eatFlag = false;
 
 
     @Override
@@ -32,43 +32,41 @@ public class Hamster extends Animal {
             return;
         }
 
-        // Это животное ищет добычу по убыванию вероятности съедания
-        // Это животное если поймал кого-то, то съедает ее полностью
-        // За один такт животное съедает только одну добычу
-
-        // если еще голоден, то он ищет покушать
-        if (satiety < maxSatiety) {
+        // Ест пока не насытится
+        while (satiety < maxSatiety) {
             // Ищем Растения
             if (!cell.grassListToCell.isEmpty()) {
                 satiety += Grass.weight;
                 cell.grassListToCell.get(0).die(locationLength, locationWidth);
                 eatFlag = true;
             }
+            else break;
         }
 
-        if (eatFlag) {
+        if (satiety > 0) {
             // если мы поели, то обнуляем смерть от голода
             if (hungryTactBeforeDie != 0) {
                 hungryTactBeforeDie = 0;
             }
             // насыщение не может быть больше мах
             if (satiety > maxSatiety) satiety = maxSatiety;
-            // снова обнуляем флаг еды, для следующей проверки трапезы
-            eatFlag = false;
+
+            // в сытость уменьшается в любом случае в конце такта
+            satiety--;
         } else {
-            // Если мы не поели, то сытость уменьшается
-            if (satiety < 0) {
-                hungryTactBeforeDie++;
-                if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
-                    die(locationLength, locationWidth);
-                    return;
-                }
-            } else {
-                satiety--;
+            // Если мы не поели, то голод увеличивается
+            hungryTactBeforeDie++;
+            if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
+                die(locationLength, locationWidth);
+                return;
             }
+        }
+
+        if (!eatFlag) {
             // Если мы ничего не поели, то попробуем размножиться
             reproduction();
         }
+
     }
 
     @Override
@@ -87,7 +85,7 @@ public class Hamster extends Animal {
     @Override
     public void reproduction() {
         // Если животное не голодно(если сытость меньше половины)
-        if (satiety < maxSatiety / 2) {
+        if (satiety > maxSatiety / 2) {
             // было бы с кем спариться(Если есть еще такое же животное)
             if (countThisAnimalTypeToCell > 1) {
                 // заодно проверяем на перенаселение этим видом

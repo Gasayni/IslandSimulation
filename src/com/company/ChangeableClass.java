@@ -21,7 +21,7 @@ public class ChangeableClass {
 
     //                              Условия остановки симуляции
     // Длительность такта симуляции (в секундах)
-    private static final int longTactSimulation = 1;
+    private static final int longTactSimulation = 2;
     // Максимальное кол-во тактов
     private static final int maxStep = 10;
 

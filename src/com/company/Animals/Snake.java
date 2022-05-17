@@ -14,14 +14,14 @@ public class Snake extends Animal {
     // Скорость перемещения. На сколько клеток можно передвинуться за один такт
     private static final int speed = 1;
     // Мах уровень сытости/насыщения
-    private static final double maxSatiety = 0.3;
+    private static final double maxSatiety = 3.3;
     private double satiety = maxSatiety / 2;
     // (мах шкала выживаемости) Сколько ходов (тактов) животное может жить после падения шкалы сытости до нуля
     private static final int maxHungryTactBeforeDie = 15;
     // текущая шкала выживаемости после падения шкалы сытости до нуля
     private int hungryTactBeforeDie = 0;
-    public boolean eatFlag = false;
     int countThisAnimalTypeToCell = cell.snakesListToCell.size();
+    private boolean eatFlag = false;
 
     @Override
     public void eat() {
@@ -31,14 +31,8 @@ public class Snake extends Animal {
             return;
         }
 
-        // Это животное ищет добычу по убыванию вероятности съедания
-        // Это животное если поймал кого-то, то съедает ее полностью
-        // За один такт животное съедает только одну добычу
-
-
-        // если еще голоден, то он ищет покушать
-        if (satiety < maxSatiety) {
-            // Смотрим, есть ли на этом участке чем поживиться
+        // Ест пока не насытится
+        while (satiety < maxSatiety) {
             // Сначала ищем хомяков и гусениц
             if ((!cell.hamstersListToCell.isEmpty())
                     || (!cell.larvaListToCell.isEmpty())) {
@@ -77,29 +71,29 @@ public class Snake extends Animal {
                 }
                 eatFlag = true;
             }
+            else break;
         }
 
-        if (eatFlag) {
+        if (satiety > 0) {
             // если мы поели, то обнуляем смерть от голода
             if (hungryTactBeforeDie != 0) {
                 hungryTactBeforeDie = 0;
             }
             // насыщение не может быть больше мах
             if (satiety > maxSatiety) satiety = maxSatiety;
-            // снова обнуляем флаг еды, для следующей проверки трапезы
-            eatFlag = false;
-        }
-        else {
-            // Если мы не поели, то сытость уменьшается
-            if (satiety == 0){
-                hungryTactBeforeDie ++;
-                if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
-                    die(locationLength, locationWidth);
-                    return;
-                }
-            } else {
-                satiety --;
+
+            // в сытость уменьшается в любом случае в конце такта
+            satiety--;
+        } else {
+            // Если мы не поели, то голод увеличивается
+            hungryTactBeforeDie++;
+            if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
+                die(locationLength, locationWidth);
+                return;
             }
+        }
+
+        if (!eatFlag) {
             // Если мы ничего не поели, то попробуем размножиться
             reproduction();
         }
@@ -121,7 +115,7 @@ public class Snake extends Animal {
     @Override
     public void reproduction() {
         // Если животное не голодно(если сытость меньше половины)
-        if (satiety < maxSatiety / 2) {
+        if (satiety > maxSatiety / 2) {
             // было бы с кем спариться(Если есть еще такое же животное)
             if (countThisAnimalTypeToCell > 1) {
                 // заодно проверяем на перенаселение этим видом

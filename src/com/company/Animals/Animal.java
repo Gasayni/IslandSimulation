@@ -28,7 +28,6 @@ public abstract class Animal {
 
     // Будет содержать поведение, общее для всех животных
     // Рождается
-
     public abstract void born(int locationLength, int locationWidth);
 
     // Проверка выход из острова

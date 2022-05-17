@@ -44,12 +44,8 @@ public class Bear extends Animal {
             return;
         }
 
-        /*// Ест пока не насытится
+        // Ест пока не насытится
         while (satiety < maxSatiety) {
-
-        }*/
-        
-        if (satiety < maxSatiety) {
             // Сначала ищем хомяков
             if (!cell.hamstersListToCell.isEmpty()) {
                 satiety += Hamster.weight;
@@ -159,37 +155,39 @@ public class Bear extends Animal {
                 }
                 eatFlag = true;
             }
+            else break;
         }
 
-        if (eatFlag) {
+        if (satiety > 0) {
             // если мы поели, то обнуляем смерть от голода
             if (hungryTactBeforeDie != 0) {
                 hungryTactBeforeDie = 0;
             }
             // насыщение не может быть больше мах
             if (satiety > maxSatiety) satiety = maxSatiety;
-            // снова обнуляем флаг еды, для следующей проверки трапезы
-            eatFlag = false;
+
+            // в сытость уменьшается в любом случае в конце такта
+            satiety--;
         } else {
-            // Если мы не поели, то сытость уменьшается
-            if (satiety < 0) {
-                hungryTactBeforeDie++;
-                if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
-                    die(locationLength, locationWidth);
-                    return;
-                }
-            } else {
-                satiety--;
+            // Если мы не поели, то голод увеличивается
+            hungryTactBeforeDie++;
+            if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
+                die(locationLength, locationWidth);
+                return;
             }
+        }
+
+        if (!eatFlag) {
             // Если мы ничего не поели, то попробуем размножиться
             reproduction();
         }
+
     }
 
     @Override
     public void reproduction() {
         // Если животное не голодно(если сытость меньше половины)
-        if (satiety < maxSatiety / 2) {
+        if (satiety > maxSatiety / 2) {
             // было бы с кем спариться(Если есть еще такое же животное)
             if (cell.bearsListToCell.size() > 1) {
                 // заодно проверяем на перенаселение этим видом
@@ -205,7 +203,6 @@ public class Bear extends Animal {
                 }
             }
         }
-
         // и еды нет и спариться не с кем, пойду отсюда...
         move(locationLength, locationWidth, speed);
     }

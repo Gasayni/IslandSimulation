@@ -41,8 +41,8 @@ public class Wolf extends Animal {
     private static final int maxHungryTactBeforeDie = 10;
     // текущая шкала выживаемости после падения шкалы сытости до нуля
     private static int hungryTactBeforeDie = 0;
-    public static boolean eatFlag = false;
     int countThisAnimalTypeToCell = cell.wolfsListToCell.size();
+    private boolean eatFlag = false;
 
 
     @Override
@@ -53,13 +53,8 @@ public class Wolf extends Animal {
             return;
         }
 
-        // Это животное ищет добычу по убыванию вероятности съедания
-        // Это животное если поймал кого-то, то съедает ее полностью
-        // За один такт животное съедает только одну добычу
-
-        // если волк еще голоден, то он ищет покушать
-        if (satiety < maxSatiety) {
-            // Смотрим, есть ли на этом участке чем поживиться
+        // Ест пока не насытится
+        while (satiety < maxSatiety) {
             // Сначала ищем хомяков
             if (!cell.hamstersListToCell.isEmpty()) {
                 satiety += Hamster.weight;
@@ -75,7 +70,6 @@ public class Wolf extends Animal {
             // Ищем: овцы и зайцы съедаются с одинаковой вероятностью 70%
             else if ((!cell.sheepListToCell.isEmpty())
                     || (!cell.haresListToCell.isEmpty())) {
-
                 // У нас овцы и зайцы съедаются с одинаковой вероятностью
                 // Поэтому включаем рандомайзер
                 int random = new Details().randomizer(1, 2);
@@ -137,7 +131,6 @@ public class Wolf extends Animal {
             else if ((!cell.snakesListToCell.isEmpty())
                     || (!cell.foxesListToCell.isEmpty())
                     || (!cell.eaglesListToCell.isEmpty())) {
-
                 // У нас змеи, лисы и орлы съедаются с одинаковой вероятностью
                 // Поэтому включаем рандомайзер
                 int random = new Details().randomizer(1, 3);
@@ -162,32 +155,32 @@ public class Wolf extends Animal {
                 }
                 eatFlag = true;
             }
+            else break;
         }
 
-        if (eatFlag) {
+        if (satiety > 0) {
             // если мы поели, то обнуляем смерть от голода
             if (hungryTactBeforeDie != 0) {
                 hungryTactBeforeDie = 0;
             }
             // насыщение не может быть больше мах
             if (satiety > maxSatiety) satiety = maxSatiety;
-            // снова обнуляем флаг еды, для следующей проверки трапезы
-            eatFlag = false;
+
+            // в сытость уменьшается в любом случае в конце такта
+            satiety--;
         } else {
-            // Если мы не поели, то сытость уменьшается
-            if (satiety == 0) {
-                hungryTactBeforeDie++;
-                if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
-                    die(locationLength, locationWidth);
-                    return;
-                }
-            } else {
-                satiety--;
+            // Если мы не поели, то голод увеличивается
+            hungryTactBeforeDie++;
+            if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
+                die(locationLength, locationWidth);
+                return;
             }
+        }
+
+        if (!eatFlag) {
             // Если мы ничего не поели, то попробуем размножиться
             reproduction();
         }
-
     }
 
     @Override
@@ -206,7 +199,7 @@ public class Wolf extends Animal {
     @Override
     public void reproduction() {
         // Если животное не голодно(если сытость меньше половины)
-        if (satiety < maxSatiety / 2) {
+        if (satiety > maxSatiety / 2) {
             // было бы с кем спариться(Если есть еще такое же животное)
             if (countThisAnimalTypeToCell > 1) {
                 // заодно проверяем на перенаселение этим видом

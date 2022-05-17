@@ -12,13 +12,14 @@ public class CallPull {
     int widthIsland = changeableClass.getWidthIsland();
     Cell[][] cellMas = changeableClass.getCellMas();
     Details details = new Details();
-    // Создадим двумерный массив для вывода смайликов
 
-    public CallPull() throws IOException, InterruptedException {
-        // создаем фиксированное кол-во потоков, равное количеству ячеек острова
+    // создаем фиксированное кол-во потоков, равное количеству ячеек острова
 //         ExecutorService executorService = Executors.newFixedThreadPool(countCellIsland);
 //         ExecutorService executorService = Executors.newCachedThreadPool();
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    // Создадим двумерный массив для вывода смайликов
+
+    public CallPull() {
         int step = 0;
         while (step < changeableClass.getMaxStep()) {
             step++;
@@ -40,6 +41,9 @@ public class CallPull {
                 TimeUnit.SECONDS.sleep(changeableClass.getLongTactSimulation());
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if (step == 10) {
+                System.out.println();
             }
 
             // Посмотрим сколько животных осталось всего.

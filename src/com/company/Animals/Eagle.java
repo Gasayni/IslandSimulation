@@ -20,8 +20,8 @@ public class Eagle extends Animal {
     private static final int maxHungryTactBeforeDie = 5;
     // текущая шкала выживаемости после падения шкалы сытости до нуля
     private int hungryTactBeforeDie = 0;
-    public boolean eatFlag = false;
     int countThisAnimalTypeToCell = cell.eaglesListToCell.size();
+    private boolean eatFlag = false;
 
     @Override
     public void eat() {
@@ -31,13 +31,9 @@ public class Eagle extends Animal {
             return;
         }
 
-        // Это животное ищет добычу по убыванию вероятности съедания
-        // Это животное если поймал кого-то, то съедает ее полностью
-        // За один такт животное съедает только одну добычу
+        // Ест пока не насытится
+        while (satiety < maxSatiety) {
 
-
-        // если волк еще голоден, то он ищет покушать
-        if (satiety < maxSatiety) {
             // Хомяки и зайцы
             if ((!cell.hamstersListToCell.isEmpty())
                     || (!cell.haresListToCell.isEmpty())) {
@@ -75,29 +71,29 @@ public class Eagle extends Animal {
                 cell.larvaListToCell.get(0).die(locationLength, locationWidth);
                 eatFlag = true;
             }
+            else break;
         }
 
-        if (eatFlag) {
+        if (satiety > 0) {
             // если мы поели, то обнуляем смерть от голода
             if (hungryTactBeforeDie != 0) {
                 hungryTactBeforeDie = 0;
             }
             // насыщение не может быть больше мах
             if (satiety > maxSatiety) satiety = maxSatiety;
-            // снова обнуляем флаг еды, для следующей проверки трапезы
-            eatFlag = false;
-        }
-        else {
-            // Если мы не поели, то сытость уменьшается
-            if (satiety < 0){
-                hungryTactBeforeDie ++;
-                if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
-                    die(locationLength, locationWidth);
-                    return;
-                }
-            } else {
-                satiety --;
+
+            // в сытость уменьшается в любом случае в конце такта
+            satiety--;
+        } else {
+            // Если мы не поели, то голод увеличивается
+            hungryTactBeforeDie++;
+            if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
+                die(locationLength, locationWidth);
+                return;
             }
+        }
+
+        if (!eatFlag) {
             // Если мы ничего не поели, то попробуем размножиться
             reproduction();
         }
@@ -119,7 +115,7 @@ public class Eagle extends Animal {
     @Override
     public void reproduction() {
         // Если животное не голодно(если сытость меньше половины)
-        if (satiety < maxSatiety / 2) {
+        if (satiety > maxSatiety / 2) {
             // было бы с кем спариться(Если есть еще такое же животное)
             if (countThisAnimalTypeToCell > 1) {
                 // заодно проверяем на перенаселение этим видом
