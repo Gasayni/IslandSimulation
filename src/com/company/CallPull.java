@@ -28,7 +28,12 @@ public class CallPull {
                     executorService.execute(new Task(i, j));
 
                     // в каждой ячейке ищем животного с мах-ой популяцией(для смайлика)
-                    String maxPopulationAnimalName = cellMas[i][j].maxAnimalsFromCellSearchMethod();
+                    String maxPopulationAnimalName;
+//                    if (!cellMas[i][j].snakesListToCell.isEmpty()) {
+//                        maxPopulationAnimalName = "Змея";
+//                    } else {
+                        maxPopulationAnimalName = cellMas[i][j].maxAnimalsFromCellSearchMethod();
+//                    }
                     main.smilesMass[i][j] = main.smileGenerate(maxPopulationAnimalName);
 
                     // кладем кол-во животных в метод(нужно для вывода)
@@ -41,9 +46,6 @@ public class CallPull {
                 TimeUnit.SECONDS.sleep(changeableClass.getLongTactSimulation());
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            if (step == 10) {
-                System.out.println();
             }
 
             // Посмотрим сколько животных осталось всего.

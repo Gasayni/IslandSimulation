@@ -13,10 +13,14 @@ public abstract class Plants {
 //    public boolean deadFlag = false;
     // мы создали новую мапу, чтобы изменить ее и отправить измененную мапу взамен старой
     Cell[][] cells = changeableClass.getCellMas();
+    Cell cell;
+    int countThisAnimalTypeToCell;
 
-    public void firstBorn(int locationLength, int locationWidth) {
+    public void firstBorn(int locationLength, int locationWidth, int countThisAnimalTypeToCell) {
         Plants.locationLength = locationLength;
         Plants.locationWidth = locationWidth;
+        cell = cells[locationLength][locationWidth];
+        this.countThisAnimalTypeToCell = countThisAnimalTypeToCell;
 
         reproduction();
     }

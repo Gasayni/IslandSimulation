@@ -82,10 +82,11 @@ public class Cell {
             maxAnimalCount = larvaListToCell.size();
             maxName = "Гусеница";
         }
-        if (maxAnimalCount < grassListToCell.size()) {
+        // не будем учитывать травку
+        /*if (maxAnimalCount < grassListToCell.size()) {
             maxAnimalCount = grassListToCell.size();
             maxName = "Трава";
-        }
+        }*/
         if (maxAnimalCount < sheepListToCell.size()) {
             maxAnimalCount = sheepListToCell.size();
             maxName = "Овца";

@@ -21,9 +21,9 @@ public class ChangeableClass {
 
     //                              Условия остановки симуляции
     // Длительность такта симуляции (в секундах)
-    private static final int longTactSimulation = 2;
+    private static final int longTactSimulation = 1;
     // Максимальное кол-во тактов
-    private static final int maxStep = 10;
+    private static final int maxStep = 20;
 
     // количество животных каждого вида на старте симуляции
     // 2.5 * на возможное кол-во в клетке
@@ -41,13 +41,10 @@ public class ChangeableClass {
     private static final int kangarooCountStart = 380;
     private static final int cowCountStart = 50;
     private static final int duckCountStart = 1500;
-    private static final int larvaCountStart = 25000;
+    private static final int larvaCountStart = 5000;
     private static final int grassCountStart = 25000;
 
-    /*private String[] nameTypeAnimal = {"Волк", "Змея", "Лиса", "Медведь", "Орел", "Лошадь",
-            "Олень", "Заяц", "Хомяк", "Коза", "Овца", "Кенгуру", "Корова", "Утка", "Гусеница", "Трава"};*/
-
-    public static int countAnimals() {
+    public static int countAnimalsMethod() {
         List<Integer> countAnimalList = List.of(wolfCountStart, snakeCountStart, foxCountStart, bearCountStart,
                 eagleCountStart, horseCountStart, deerCountStart, hareCountStart, hamsterCountStart, goatCountStart,
                 sheepCountStart, kangarooCountStart, cowCountStart, duckCountStart, larvaCountStart, grassCountStart);
@@ -91,10 +88,10 @@ public class ChangeableClass {
     private static final int deerKidMaxCount = 3;
     // Зайцы за 3 такта становятся половозрелыми
     private static final int hareKidMinCount = 2;
-    private static final int hareKidMaxCount = 15;
+    private static final int hareKidMaxCount = 8;
     // Хомяки за 1 такта становятся половозрелыми
     private static final int hamsterKidMinCount = 1;
-    private static final int hamsterKidMaxCount = 18;
+    private static final int hamsterKidMaxCount = 9;
     // Коза за 4 такта становятся половозрелыми
     private static final int goatKidMinCount = 1;
     private static final int goatKidMaxCount = 3;
@@ -111,11 +108,11 @@ public class ChangeableClass {
     private static final int duckKidMinCount = 5;
     private static final int duckKidMaxCount = 20;
     // Гусеница за 1 такт становятся половозрелым
-    private static final int larvaKidMinCount = 2;
-    private static final int larvaKidMaxCount = 5;
+    private static final int larvaKidMinCount = 0;
+    private static final int larvaKidMaxCount = 1;
     // Растение всегда половозрелое...
-    private static final int grassMinKidCount = 3;
-    private static final int grassMaxKidCount = 10;
+    private static final int grassMinKidCount = 0;
+    private static final int grassMaxKidCount = 5;
 
 
 

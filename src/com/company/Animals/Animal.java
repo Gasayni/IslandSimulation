@@ -4,6 +4,9 @@ import com.company.Cell;
 import com.company.ChangeableClass;
 import com.company.Details;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Травоядный хищник - это женщина на диете, днём жуёт морковку и сельдерей,
  * а по ночам совершает набеги на холодильник и точит колбаску, сосисочки и прочие вкусности.
@@ -12,15 +15,18 @@ public abstract class Animal {
     ChangeableClass changeableClass = new ChangeableClass();
     Details details = new Details();
     Cell[][] cells = changeableClass.getCellMas();
-    public static int locationLength;
-    public static int locationWidth;
+    public int locationLength;
+    public int locationWidth;
     // мы создали новую мапу, чтобы изменить ее и отправить измененную мапу взамен старой
-    Cell cell = cells[locationLength][locationWidth];
+    Cell cell;
+    public int countThisAnimalTypeToCell;
 
 
-    public void firstBorn(int locationLength, int locationWidth) {
-        Animal.locationLength = locationLength;
-        Animal.locationWidth = locationWidth;
+    public void firstBorn(int locationLength, int locationWidth, int countThisAnimalTypeToCell) {
+        this.locationLength = locationLength;
+        this.locationWidth = locationWidth;
+        cell = cells[locationLength][locationWidth];
+        this.countThisAnimalTypeToCell = countThisAnimalTypeToCell;
 
         eat();
     }
@@ -29,6 +35,7 @@ public abstract class Animal {
     // Будет содержать поведение, общее для всех животных
     // Рождается
     public abstract void born(int locationLength, int locationWidth);
+
 
     // Проверка выход из острова
     public void bornToMove(int locationLength, int locationWidth) {

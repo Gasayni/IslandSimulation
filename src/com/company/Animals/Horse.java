@@ -14,13 +14,12 @@ public class Horse extends Animal {
     // Скорость перемещения. На сколько клеток можно передвинуться за один такт
     private static final int speed = 3;
     // Мах уровень сытости/насыщения
-    private final double maxSatiety = 45;
+    private static final double maxSatiety = 100;
     private double satiety = maxSatiety / 2;
     // (мах шкала выживаемости) Сколько ходов (тактов) животное может жить после падения шкалы сытости до нуля
     private static final int maxHungryTactBeforeDie = 5;
     // текущая шкала выживаемости после падения шкалы сытости до нуля
-    private static int hungryTactBeforeDie = 0;
-    private final int countThisAnimalTypeToCell = cell.horsesListToCell.size();
+    private int hungryTactBeforeDie = 0;
     private boolean eatFlag = false;
 
     @Override
@@ -41,49 +40,66 @@ public class Horse extends Animal {
             }
             else break;
         }
-
-        if (satiety > 0) {
-            // если мы поели, то обнуляем смерть от голода
-            if (hungryTactBeforeDie != 0) {
+        // если мы поели хоть что-то
+        if (eatFlag) {
+            // если мы еще не голодны
+            if (satiety > 0 && hungryTactBeforeDie > 0) {
+                // обнуляем голод
                 hungryTactBeforeDie = 0;
             }
-            // насыщение не может быть больше мах
-            if (satiety > maxSatiety) satiety = maxSatiety;
-
-            // в сытость уменьшается в любом случае в конце такта
-            satiety--;
-        } else {
-            // Если мы не поели, то голод увеличивается
+            // сытость не может быть больше мах
+            if (satiety > maxSatiety) {
+                satiety = maxSatiety;
+            }
+        }
+        // если мы еще не голодны (если сытость больше 0)
+        if (satiety > 0) {
+            // сытость уменьшается
+            satiety = satiety - maxSatiety / 2;
+        }
+        // Если сытость опустилась до 0 или ниже
+        else {
+            // отрицательный уровень сытости поддерживается, но голод увеличивается
+            if (satiety < -(maxSatiety / 2)) {
+                satiety = -(maxSatiety / 2);
+            }
+            // голод увеличивается
             hungryTactBeforeDie++;
+            // если голод очень долго (голод не меньше max)
             if (hungryTactBeforeDie == maxHungryTactBeforeDie) {
+                // то умираем
                 die(locationLength, locationWidth);
                 return;
             }
         }
-
-        if (!eatFlag) {
-            // Если мы ничего не поели, то попробуем размножиться
-            reproduction();
+        // Мало живности. (если сытость меньше половины)
+        if (satiety < maxSatiety / 2) {
+            move(locationLength, locationWidth, speed);
+            return;
         }
+        // попробуем размножиться, все равно их мало
+        reproduction();
     }
 
     @Override
     public void born(int locationLength, int locationWidth) {
         // должен родиться в заданном месте на острове
-        cells[locationLength][locationWidth].horsesListToCell.add(new Horse());
+        cell = cells[locationLength][locationWidth];
+        cell.horsesListToCell.add(this);
     }
 
     @Override
     public void die(int locationLength, int locationWidth) {
         // то просто уменьшаем на 1
-        cells[locationLength][locationWidth].horsesListToCell.remove(this);
+        cell = cells[locationLength][locationWidth];
+        cell.horsesListToCell.remove(this);
     }
 
 
     @Override
     public void reproduction() {
-        // Если животное не голодно(если сытость меньше половины)
-        if (satiety > maxSatiety / 2) {
+        // Если животное не голодно
+        if (hungryTactBeforeDie == 0) {
             // было бы с кем спариться(Если есть еще такое же животное)
             if (countThisAnimalTypeToCell > 1) {
                 // заодно проверяем на перенаселение этим видом

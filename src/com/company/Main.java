@@ -45,14 +45,42 @@ public class Main {
         // Псевдографика
 
         System.out.println("Шаг: " + step);
-        System.out.print("Медведей(было/стало): " + oldAnimalCountMap.get("Медведь")
-                + "/" + animalCountMap.get("Медведь") + "\t\t");
-        System.out.print("Волков(было/стало): " + oldAnimalCountMap.get("Волк")
-                + "/" + animalCountMap.get("Волк") + "\t\t");
-        System.out.print("Хомяков(было/стало): " + oldAnimalCountMap.get("Хомяк")
-                + "/" + animalCountMap.get("Хомяк") + "\t");
-        System.out.println("Трава(было/стало): " + oldAnimalCountMap.get("Трава")
+        System.out.print("Медведей(было/стало):" + oldAnimalCountMap.get("Медведь")
+                + "/" + animalCountMap.get("Медведь") + " \t");
+        System.out.print("Волков(было/стало):" + oldAnimalCountMap.get("Волк")
+                + "/" + animalCountMap.get("Волк") + " \t");
+        System.out.print("Лис(было/стало):" + oldAnimalCountMap.get("Лиса")
+                + "/" + animalCountMap.get("Лиса") + " \t");
+        System.out.println("Орлов(было/стало):" + oldAnimalCountMap.get("Орел")
+                + "/" + animalCountMap.get("Орел"));
+        System.out.print("Змей(было/стало):" + oldAnimalCountMap.get("Змея")
+                + "/" + animalCountMap.get("Змея") + " \t");
+        System.out.print("Уток(было/стало):" + oldAnimalCountMap.get("Утка")
+                + "/" + animalCountMap.get("Утка") + " \t");
+
+        System.out.print("Коров(было/стало):" + oldAnimalCountMap.get("Корова")
+                + "/" + animalCountMap.get("Корова") + " \t");
+        System.out.println("Лошадей(было/стало):" + oldAnimalCountMap.get("Лошадь")
+                + "/" + animalCountMap.get("Лошадь"));
+        System.out.print("Оленей(было/стало):" + oldAnimalCountMap.get("Олень")
+                + "/" + animalCountMap.get("Олень") + "\t");
+        System.out.print("Кенгуру(было/стало):" + oldAnimalCountMap.get("Кенгуру")
+                + "/" + animalCountMap.get("Кенгуру") + "\t");
+        System.out.print("Коз(было/стало):" + oldAnimalCountMap.get("Коза")
+                + "/" + animalCountMap.get("Коза") + " \t");
+        System.out.println("Овец(было/стало):" + oldAnimalCountMap.get("Овца")
+                + "/" + animalCountMap.get("Овца"));
+
+        System.out.print("Зайцев(было/стало):" + oldAnimalCountMap.get("Заяц")
+                + "/" + animalCountMap.get("Заяц") + " \t");
+        System.out.print("Хомяков(было/стало):" + oldAnimalCountMap.get("Хомяк")
+                + "/" + animalCountMap.get("Хомяк") + " \t");
+        System.out.print("Гусениц(было/стало):" + oldAnimalCountMap.get("Гусеница")
+                + "/" + animalCountMap.get("Гусеница") + " \t");
+
+        System.out.println("Трава(было/стало):" + oldAnimalCountMap.get("Трава")
                 + "/" + animalCountMap.get("Трава"));
+
         // теперь выводим непосредственно двумерный массив из смайликов
         for (int i = 0; i < lengthIsland-1; i++) {
             for (int j = 0; j < widthIsland-1; j++) {
@@ -60,8 +88,6 @@ public class Main {
             }
             System.out.println();
         }
-        System.out.println("\n");
-
-        // Нужно очистить поле
+        System.out.println();
     }
 }

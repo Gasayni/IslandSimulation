@@ -24,7 +24,6 @@ public class Details {
             cleanInitializeMethod();
             oldAnimalCountMap.putAll(animalCountMap);
         }
-
         animalCountMap.put("Медведь", animalCountMap.get("Медведь") + cell.bearsListToCell.size());
         animalCountMap.put("Волк", animalCountMap.get("Волк") + cell.wolfsListToCell.size());
         animalCountMap.put("Лиса", animalCountMap.get("Лиса") + cell.foxesListToCell.size());
@@ -32,8 +31,8 @@ public class Details {
         animalCountMap.put("Орел", animalCountMap.get("Орел") + cell.eaglesListToCell.size());
         animalCountMap.put("Гусеница", animalCountMap.get("Гусеница") + cell.larvaListToCell.size());
         animalCountMap.put("Утка", animalCountMap.get("Утка") + cell.ducksListToCell.size());
-        animalCountMap.put("Баран", animalCountMap.get("Баран") + cell.sheepListToCell.size());
-        animalCountMap.put("Козел", animalCountMap.get("Козел") + cell.goatsListToCell.size());
+        animalCountMap.put("Овца", animalCountMap.get("Овца") + cell.sheepListToCell.size());
+        animalCountMap.put("Коза", animalCountMap.get("Коза") + cell.goatsListToCell.size());
         animalCountMap.put("Заяц", animalCountMap.get("Заяц") + cell.haresListToCell.size());
         animalCountMap.put("Лошадь", animalCountMap.get("Лошадь") + cell.horsesListToCell.size());
         animalCountMap.put("Олень", animalCountMap.get("Олень") + cell.deerListToCell.size());
@@ -55,8 +54,8 @@ public class Details {
         animalCountMap.put("Орел", 0);
         animalCountMap.put("Гусеница", 0);
         animalCountMap.put("Утка", 0);
-        animalCountMap.put("Баран", 0);
-        animalCountMap.put("Козел", 0);
+        animalCountMap.put("Овца", 0);
+        animalCountMap.put("Коза", 0);
         animalCountMap.put("Заяц", 0);
         animalCountMap.put("Лошадь", 0);
         animalCountMap.put("Олень", 0);

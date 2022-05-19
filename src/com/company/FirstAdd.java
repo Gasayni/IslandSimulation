@@ -22,7 +22,7 @@ public class FirstAdd {
 //        cellMas[0][0].bearsListToCell.add(new Bear());
 
         // Тут впервые разбрасываем всех животных по ячейкам
-        for (int i = 0; i < ChangeableClass.countAnimals(); i++) {
+        for (int i = 0; i < ChangeableClass.countAnimalsMethod(); i++) {
             // Добавляем Волков.
             if (i < changeableClass.getWolfCountStart()) {
                 // рандомно выбираем ячейку на острове
